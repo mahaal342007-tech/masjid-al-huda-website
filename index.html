@@ -14,20 +14,20 @@
 <style>
 /* General */
 body { font-family:'Cairo', sans-serif; font-size:18px; line-height:1.6; direction:rtl; text-align:right; margin:0; padding:0; overflow-x:hidden; background: linear-gradient(to bottom,#ffffff,#cceeff); color:#32CD32;}
-.watermark {position:fixed; top:0; left:0; right:0; bottom:0; background:url('https://i.imgur.com/2q1lT1A.png') no-repeat center center; background-size:30%; opacity:0.05; z-index:0;}
+.watermark {position:fixed; top:0; left:0; right:0; bottom:0; background:url('images/logo-alhuda.jpg') no-repeat center center; background-size:30%; opacity:0.05; z-index:0;}
 
 /* Header */
 header {display:flex; justify-content:space-between; align-items:center; padding:10px 20px; position:fixed; top:0; width:100%; background:rgba(255,255,255,0.85); z-index:1000;}
 header .header-left {display:flex; align-items:center;}
 header h1 {font-family:'Scheherazade', serif; font-size:3em; margin-right:15px;}
-header .logo {width:70px;}
+header .logo {width:70px; z-index:1001;}
 header nav a {margin:0 10px; text-decoration:none; color:#32CD32; font-weight:bold;}
 header nav a:hover {text-decoration:underline;}
 .dark-toggle {font-size:1.5em; cursor:pointer; background:none; border:none;}
 
 /* Hero Section */
 .hero {height:100vh; display:flex; justify-content:center; align-items:center; text-align:center; position:relative; overflow:hidden;}
-.hero-overlay::before {content:""; position:absolute; top:0; left:0; right:0; bottom:0; background:url('https://i.pinimg.com/736x/d0/fe/08/d0fe089127b7f15ec0ed71f944812515.jpg') no-repeat center center; background-size:cover; opacity:0.1; z-index:0;}
+.hero-overlay::before {content:""; position:absolute; top:0; left:0; right:0; bottom:0; background:url('images/alhuda-munbar.jpg') no-repeat center center; background-size:cover; opacity:0.2; z-index:0;}
 .hero-content {position:relative; z-index:1; max-width:800px;}
 .welcome-glow {font-size:3em; animation: glow 2s infinite alternate;}
 @keyframes glow {0% {text-shadow:0 0 10px #32CD32;}100% {text-shadow:0 0 30px #32CD32;}}
@@ -44,7 +44,7 @@ header nav a:hover {text-decoration:underline;}
 @keyframes scrollNews {0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
 
 /* Sections */
-.container {padding:100px 20px 50px 20px; max-width:1200px; margin:auto;}
+.container {padding:120px 20px 50px 20px; max-width:1200px; margin:auto;}
 .section-title {font-family:'Scheherazade', serif; font-size:2.5em; margin-bottom:30px;}
 .event-cards, .cards {display:flex; flex-wrap:wrap; gap:20px; justify-content:center;}
 .event-card, .card {background:#e6ffe6; border-radius:15px; padding:20px; text-align:center; flex:1 1 250px; transition: transform 0.3s;}
@@ -58,6 +58,7 @@ header nav a:hover {text-decoration:underline;}
 .memory-slider {position:relative; overflow:hidden; height:400px;}
 .memory-slide {position:absolute; top:0; left:0; width:100%; opacity:0; z-index:0; transition: opacity 1s;}
 .memory-slide.active {opacity:1; z-index:1;}
+.memory-slide img, .memory-slide video {width:100%; height:400px; object-fit:cover;}
 .memory-caption {position:absolute; bottom:10px; right:20px; background:rgba(0,0,0,0.5); color:#fff; padding:5px 15px; border-radius:10px; font-size:1.3em;}
 .memory-thumbnails {display:flex; justify-content:center; gap:10px; margin-top:10px;}
 .memory-thumbnails img {width:150px; cursor:pointer; border-radius:10px;}
@@ -82,7 +83,7 @@ header nav a:hover {text-decoration:underline;}
 .top-btn {position:fixed; bottom:20px; right:20px; font-size:2em; display:none; z-index:1000; background:none; border:none; cursor:pointer; color:#32CD32;}
 
 /* Dark mode */
-body.dark-mode {background:#2c2c2c; color:#32CD32;}
+body.dark-mode {background:#4a4a4a; color:#32CD32;}
 body.dark-mode .news-ticker-container {background:#006600;}
 body.dark-mode .event-card, body.dark-mode .card, body.dark-mode .prayer-card {background:#004400;}
 </style>
@@ -93,12 +94,12 @@ body.dark-mode .event-card, body.dark-mode .card, body.dark-mode .prayer-card {b
 
 <header>
   <div class="header-left">
-    <img src="https://i.imgur.com/2q1lT1A.png" alt="Mosque Logo" class="logo">
+    <img src="images/logo-alhuda.jpg" alt="Mosque Logo" class="logo">
     <h1>مسجد الهدى</h1>
   </div>
   <nav>
     <a href="index.html">الصفحة الرئيسية</a>
-    <a href="ranking.html">التصنيفات</a> <!-- Fixed link -->
+    <a href="ranking.html">التصنيفات</a>
     <a href="gallery.html">المعرض</a>
     <a href="student.html">التسجيل / الملف الشخصي</a>
   </nav>
@@ -117,9 +118,9 @@ body.dark-mode .event-card, body.dark-mode .card, body.dark-mode .prayer-card {b
 
 <section class="news-ticker-container">
   <div class="news-ticker">
-    <div class="news-item"><img src="https://via.placeholder.com/80x50" alt=""> افتتاح التسجيلات للفصل الجديد</div>
-    <div class="news-item"><img src="https://via.placeholder.com/80x50" alt=""> صلاة الجمعة الجماعية الساعة 12:00</div>
-    <div class="news-item"><img src="https://via.placeholder.com/80x50" alt=""> محاضرة تعليمية للأطفال يوم السبت</div>
+    <div class="news-item"><img src="images/diafah.jpg" alt=""> افتتاح التسجيلات للفصل الجديد</div>
+    <div class="news-item"><img src="images/everyone.jpg" alt=""> صلاة الجمعة الجماعية الساعة 12:00</div>
+    <div class="news-item"><img src="images/durs.jpg" alt=""> محاضرة تعليمية للأطفال يوم السبت</div>
   </div>
 </section>
 
@@ -135,21 +136,28 @@ body.dark-mode .event-card, body.dark-mode .card, body.dark-mode .prayer-card {b
 <section class="container">
   <h2 class="section-title">نشاطات المسجد</h2>
   <div class="cards">
-    <div class="card"><img src="https://via.placeholder.com/300x150?text=درس+قرآن" alt=""><p>درس قرآن</p></div>
-    <div class="card"><img src="https://via.placeholder.com/300x150?text=محاضرة" alt=""><p>محاضرة دينية</p></div>
-    <div class="card"><video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video><p>فيديو النشاط</p></div>
+    <div class="card"><img src="images/durs.jpg" alt=""><p>درس قرآن</p></div>
+    <div class="card"><img src="images/diafah.jpg" alt=""><p>محاضرة</p></div>
+    <div class="card"><video src="images/20251108_112322.mp4" controls></video><p>فيديو النشاط</p></div>
+    <div class="card"><video src="images/20251108_120153.mp4" controls></video><p>نشاط إضافي</p></div>
+    <div class="card"><video src="images/20251206_103556.mp4" controls></video><p>نشاط إضافي 2</p></div>
+    <div class="card"><img src="images/everyone.jpg" alt=""><p>نشاط جماعي</p></div>
   </div>
 </section>
 
 <section class="container memories">
   <h2 class="section-title">ذكريات المسجد</h2>
   <div class="memory-slider">
-    <div class="memory-slide active"><img src="https://via.placeholder.com/1000x400?text=Memory+1" alt=""><div class="memory-caption">نشاط الأطفال - 2025/11/08</div></div>
-    <div class="memory-slide"><img src="https://via.placeholder.com/1000x400?text=Memory+2" alt=""><div class="memory-caption">ختمة قرآنية - 2025/10/30</div></div>
+    <div class="memory-slide active"><img src="images/durs.jpg" alt=""><div class="memory-caption">درس الأطفال - 2025/11/08</div></div>
+    <div class="memory-slide"><img src="images/diafah.jpg" alt=""><div class="memory-caption">محاضرة - 2025/10/30</div></div>
+    <div class="memory-slide"><video src="images/20251108_112322.mp4" controls></video><div class="memory-caption">فيديو النشاط - 2025/11/01</div></div>
+    <div class="memory-slide"><video src="images/20251108_120153.mp4" controls></video><div class="memory-caption">نشاط جماعي - 2025/11/03</div></div>
   </div>
   <div class="memory-thumbnails">
-    <img src="https://via.placeholder.com/150x80?text=Memory+1" data-index="0">
-    <img src="https://via.placeholder.com/150x80?text=Memory+2" data-index="1">
+    <img src="images/durs.jpg" data-index="0">
+    <img src="images/diafah.jpg" data-index="1">
+    <img src="images/20251108_112322.mp4" data-index="2">
+    <img src="images/20251108_120153.mp4" data-index="3">
   </div>
 </section>
 
@@ -158,6 +166,8 @@ body.dark-mode .event-card, body.dark-mode .card, body.dark-mode .prayer-card {b
   <div class="testimonial-slider">
     <div class="testimonial-slide active"><p>"مسجد الهدى مكان رائع لتعلم القرآن. شكراً لإدارة المسجد!"</p><h4>- والدة الطالبة فاطمة</h4></div>
     <div class="testimonial-slide"><p>"نشاطات الأطفال مذهلة والدروس مفيدة جداً."</p><h4>- والد الطالب يوسف</h4></div>
+    <div class="testimonial-slide"><p>"بيئة المسجد رائعة وآمنة للأطفال."</p><h4>- والدة الطالبة سارة</h4></div>
+    <div class="testimonial-slide"><p>"المحاضرات مذهلة وموظفو المسجد ودودون."</p><h4>- والد الطالب أحمد</h4></div>
   </div>
 </section>
 
@@ -165,7 +175,11 @@ body.dark-mode .event-card, body.dark-mode .card, body.dark-mode .prayer-card {b
   <h2 class="section-title">مواقيت الصلاة</h2>
   <div class="prayer-cards">
     <div class="prayer-card"><i class="fas fa-sun"></i><h4>الفجر</h4><p>5:30 ص</p></div>
+    <div class="prayer-card"><i class="fas fa-sun"></i><h4>الشروق</h4><p>6:45 ص</p></div>
     <div class="prayer-card"><i class="fas fa-sun"></i><h4>الظهر</h4><p>12:15 م</p></div>
+    <div class="prayer-card"><i class="fas fa-sun"></i><h4>العصر</h4><p>3:45 م</p></div>
+    <div class="prayer-card"><i class="fas fa-sun"></i><h4>المغرب</h4><p>5:50 م</p></div>
+    <div class="prayer-card"><i class="fas fa-sun"></i><h4>العشاء</h4><p>7:15 م</p></div>
   </div>
 </section>
 
@@ -183,7 +197,7 @@ body.dark-mode .event-card, body.dark-mode .card, body.dark-mode .prayer-card {b
 let welcomeText = "مرحبا بكم في مسجد الهدى";
 let welcomeElem = document.getElementById("welcome");
 let i=0;
-function typeWriter(){if(i<welcomeText.length){welcomeElem.innerHTML+=welcomeText.charAt(i);i++;setTimeout(typeWriter,150);}}
+function typeWriter(){if(i<welcomeText.length){welcomeElem.innerHTML+=welcomeText.charAt(i);i++;setTimeout(typeWriter,150);} }
 typeWriter();
 
 // Memory slider
