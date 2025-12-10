@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مسجد الهدى</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade&family=Cairo&display=swap" rel="stylesheet">
+
+<!-- FontAwesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<style>
+/* General */
+body { font-family:'Cairo', sans-serif; font-size:18px; line-height:1.6; direction:rtl; text-align:right; margin:0; padding:0; overflow-x:hidden; background: linear-gradient(to bottom,#ffffff,#cceeff); color:#32CD32;}
+.watermark {position:fixed; top:0; left:0; right:0; bottom:0; background:url('https://i.imgur.com/2q1lT1A.png') no-repeat center center; background-size:30%; opacity:0.05; z-index:0;}
+
+/* Header */
+header {display:flex; justify-content:space-between; align-items:center; padding:10px 20px; position:fixed; top:0; width:100%; background:rgba(255,255,255,0.85); z-index:1000;}
+header .header-left {display:flex; align-items:center;}
+header h1 {font-family:'Scheherazade', serif; font-size:3em; margin-right:15px;}
+header .logo {width:70px;}
+header nav a {margin:0 10px; text-decoration:none; color:#32CD32; font-weight:bold;}
+header nav a:hover {text-decoration:underline;}
+.dark-toggle {font-size:1.5em; cursor:pointer; background:none; border:none;}
+
+/* Hero Section */
+.hero {height:100vh; display:flex; justify-content:center; align-items:center; text-align:center; position:relative; overflow:hidden;}
+.hero-overlay::before {content:""; position:absolute; top:0; left:0; right:0; bottom:0; background:url('https://i.pinimg.com/736x/d0/fe/08/d0fe089127b7f15ec0ed71f944812515.jpg') no-repeat center center; background-size:cover; opacity:0.1; z-index:0;}
+.hero-content {position:relative; z-index:1; max-width:800px;}
+.welcome-glow {font-size:3em; animation: glow 2s infinite alternate;}
+@keyframes glow {0% {text-shadow:0 0 10px #32CD32;}100% {text-shadow:0 0 30px #32CD32;}}
+.welcome-text {font-size:2em; font-family:'Scheherazade', serif; margin:10px 0;}
+.welcome-subtext {font-size:1.3em; margin-bottom:20px;}
+.cta-btn {font-size:1.5em; padding:15px 30px; background:#32CD32; color:#fff; border:none; border-radius:10px; cursor:pointer; transition:0.3s;}
+.cta-btn:hover {transform:scale(1.05);}
+
+/* News Ticker */
+.news-ticker-container {background:#32CD32; color:#fff; overflow:hidden; padding:10px 0;}
+.news-ticker {display:flex; animation: scrollNews 15s linear infinite;}
+.news-item {margin:0 50px; display:flex; align-items:center;}
+.news-item img {width:50px; height:auto; margin-left:10px;}
+@keyframes scrollNews {0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
+
+/* Sections */
+.container {padding:100px 20px 50px 20px; max-width:1200px; margin:auto;}
+.section-title {font-family:'Scheherazade', serif; font-size:2.5em; margin-bottom:30px;}
+.event-cards, .cards {display:flex; flex-wrap:wrap; gap:20px; justify-content:center;}
+.event-card, .card {background:#e6ffe6; border-radius:15px; padding:20px; text-align:center; flex:1 1 250px; transition: transform 0.3s;}
+.event-card:hover, .card:hover {transform: scale(1.05);}
+.event-card h3, .card p {font-size:1.8em; margin:10px 0;}
+.event-card p {font-size:1.2em;}
+.card img, .card video {border-radius:0 0 50% 50%; object-fit:cover; width:100%; height:250px; box-shadow:0 5px 15px rgba(0,0,0,0.3); transition: transform 0.5s, box-shadow 0.5s;}
+.card img:hover, .card video:hover {transform: scale(1.05); box-shadow:0 10px 20px rgba(0,0,0,0.5);}
+
+/* Memory slider */
+.memory-slider {position:relative; overflow:hidden; height:400px;}
+.memory-slide {position:absolute; top:0; left:0; width:100%; opacity:0; z-index:0; transition: opacity 1s;}
+.memory-slide.active {opacity:1; z-index:1;}
+.memory-caption {position:absolute; bottom:10px; right:20px; background:rgba(0,0,0,0.5); color:#fff; padding:5px 15px; border-radius:10px; font-size:1.3em;}
+.memory-thumbnails {display:flex; justify-content:center; gap:10px; margin-top:10px;}
+.memory-thumbnails img {width:150px; cursor:pointer; border-radius:10px;}
+
+/* Testimonials */
+.testimonial-slider {position:relative; overflow:hidden; max-width:800px; margin:auto;}
+.testimonial-slide {position:absolute; top:0; left:0; width:100%; opacity:0; transition:opacity 1s; text-align:center;}
+.testimonial-slide.active {opacity:1;}
+.testimonial-slide p {font-size:1.3em;}
+.testimonial-slide h4 {font-size:1.1em; margin-top:10px;}
+
+/* Prayer times */
+.prayer-cards {display:flex; flex-wrap:wrap; gap:20px; justify-content:center;}
+.prayer-card {background:#e6ffe6; padding:20px; border-radius:15px; text-align:center;}
+.prayer-card h4 {font-size:1.2em;}
+.prayer-card p {font-size:1.1em;}
+
+/* Floating buttons */
+.social, .contact-buttons {position:fixed; bottom:20px; display:flex; flex-direction:column; z-index:1000;}
+.social a, .contact-buttons a {color:#32CD32; font-size:2em; margin:10px; transition:0.3s;}
+.social a:hover, .contact-buttons a:hover {transform:scale(1.2);}
+.top-btn {position:fixed; bottom:20px; right:20px; font-size:2em; display:none; z-index:1000; background:none; border:none; cursor:pointer; color:#32CD32;}
+
+/* Dark mode */
+body.dark-mode {background:#2c2c2c; color:#32CD32;}
+body.dark-mode .news-ticker-container {background:#006600;}
+body.dark-mode .event-card, body.dark-mode .card, body.dark-mode .prayer-card {background:#004400;}
+</style>
+</head>
+<body>
+
+<div class="watermark"></div>
+
+<header>
+  <div class="header-left">
+    <img src="https://i.imgur.com/2q1lT1A.png" alt="Mosque Logo" class="logo">
+    <h1>مسجد الهدى</h1>
+  </div>
+  <nav>
+    <a href="index.html">الصفحة الرئيسية</a>
+    <a href="ranking.html">التصنيفات</a> <!-- Fixed link -->
+    <a href="gallery.html">المعرض</a>
+    <a href="student.html">التسجيل / الملف الشخصي</a>
+  </nav>
+  <button class="dark-toggle">🌙</button>
+</header>
+
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="welcome-glow">✨</div>
+    <div class="welcome-text" id="welcome"></div>
+    <p class="welcome-subtext">مسجد الهدى يقدم لكم المكان المثالي لدراسة القرآن الكريم والمشاركة في الأنشطة الإيمانية...</p>
+    <button class="cta-btn" id="cta-register">سجل الآن</button>
+  </div>
+</section>
+
+<section class="news-ticker-container">
+  <div class="news-ticker">
+    <div class="news-item"><img src="https://via.placeholder.com/80x50" alt=""> افتتاح التسجيلات للفصل الجديد</div>
+    <div class="news-item"><img src="https://via.placeholder.com/80x50" alt=""> صلاة الجمعة الجماعية الساعة 12:00</div>
+    <div class="news-item"><img src="https://via.placeholder.com/80x50" alt=""> محاضرة تعليمية للأطفال يوم السبت</div>
+  </div>
+</section>
+
+<section class="container events">
+  <h2 class="section-title">الفعاليات القادمة</h2>
+  <div class="event-cards">
+    <div class="event-card"><i class="fas fa-mosque fa-2x"></i><h3>درس قرآن للأطفال</h3><p>2025/11/10 - الساعة 5 مساءً</p></div>
+    <div class="event-card"><i class="fas fa-microphone-alt fa-2x"></i><h3>محاضرة دينية</h3><p>2025/11/12 - الساعة 6 مساءً</p></div>
+    <div class="event-card"><i class="fas fa-praying-hands fa-2x"></i><h3>صلاة جماعية</h3><p>2025/11/14 - الساعة 12 ظهرًا</p></div>
+  </div>
+</section>
+
+<section class="container">
+  <h2 class="section-title">نشاطات المسجد</h2>
+  <div class="cards">
+    <div class="card"><img src="https://via.placeholder.com/300x150?text=درس+قرآن" alt=""><p>درس قرآن</p></div>
+    <div class="card"><img src="https://via.placeholder.com/300x150?text=محاضرة" alt=""><p>محاضرة دينية</p></div>
+    <div class="card"><video src="https://www.w3schools.com/html/mov_bbb.mp4" controls></video><p>فيديو النشاط</p></div>
+  </div>
+</section>
+
+<section class="container memories">
+  <h2 class="section-title">ذكريات المسجد</h2>
+  <div class="memory-slider">
+    <div class="memory-slide active"><img src="https://via.placeholder.com/1000x400?text=Memory+1" alt=""><div class="memory-caption">نشاط الأطفال - 2025/11/08</div></div>
+    <div class="memory-slide"><img src="https://via.placeholder.com/1000x400?text=Memory+2" alt=""><div class="memory-caption">ختمة قرآنية - 2025/10/30</div></div>
+  </div>
+  <div class="memory-thumbnails">
+    <img src="https://via.placeholder.com/150x80?text=Memory+1" data-index="0">
+    <img src="https://via.placeholder.com/150x80?text=Memory+2" data-index="1">
+  </div>
+</section>
+
+<section class="container testimonials">
+  <h2 class="section-title">آراء الأهالي</h2>
+  <div class="testimonial-slider">
+    <div class="testimonial-slide active"><p>"مسجد الهدى مكان رائع لتعلم القرآن. شكراً لإدارة المسجد!"</p><h4>- والدة الطالبة فاطمة</h4></div>
+    <div class="testimonial-slide"><p>"نشاطات الأطفال مذهلة والدروس مفيدة جداً."</p><h4>- والد الطالب يوسف</h4></div>
+  </div>
+</section>
+
+<section class="container prayer-times">
+  <h2 class="section-title">مواقيت الصلاة</h2>
+  <div class="prayer-cards">
+    <div class="prayer-card"><i class="fas fa-sun"></i><h4>الفجر</h4><p>5:30 ص</p></div>
+    <div class="prayer-card"><i class="fas fa-sun"></i><h4>الظهر</h4><p>12:15 م</p></div>
+  </div>
+</section>
+
+<!-- Floating Contact -->
+<div class="contact-buttons">
+  <a href="https://wa.me/0963984786238" target="_blank"><i class="fab fa-whatsapp"></i></a>
+  <a href="https://instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+</div>
+
+<!-- Back to top -->
+<button class="top-btn" id="topBtn">⬆️</button>
+
+<script>
+// Typing effect
+let welcomeText = "مرحبا بكم في مسجد الهدى";
+let welcomeElem = document.getElementById("welcome");
+let i=0;
+function typeWriter(){if(i<welcomeText.length){welcomeElem.innerHTML+=welcomeText.charAt(i);i++;setTimeout(typeWriter,150);}}
+typeWriter();
+
+// Memory slider
+let slides = document.querySelectorAll(".memory-slide");
+let current = 0;
+function showSlide(index){slides.forEach((s,i)=>{s.style.opacity=(i===index)?1:0;s.style.zIndex=(i===index)?1:0;});}
+setInterval(()=>{current=(current+1)%slides.length; showSlide(current);},4000);
+showSlide(current);
+
+// Back to top
+let topBtn = document.getElementById("topBtn");
+window.onscroll=()=>{topBtn.style.display=(window.scrollY>200)?"block":"none";}
+topBtn.onclick=()=>{window.scrollTo({top:0,behavior:"smooth"});}
+
+// Dark mode
+document.querySelector(".dark-toggle").addEventListener("click",()=>{document.body.classList.toggle("dark-mode");});
+</script>
+
+</body>
+</html>

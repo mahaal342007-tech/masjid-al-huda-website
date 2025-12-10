@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدورات</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body {
+  font-family: 'Arial', sans-serif;
+  background: url('your-background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  color: #1a1a1a;
+}
+header, footer {
+  background-color: rgba(0,128,0,0.9);
+  color: gold;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header a, footer a {
+  color: gold;
+  text-decoration: none;
+  margin: 0 10px;
+}
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  background: rgba(255,255,255,0.95);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+h2 {
+  text-align: center;
+  color: green;
+  margin-bottom: 25px;
+  font-size: 2em;
+}
+form {
+  display: flex;
+  flex-direction: column;
+}
+label {
+  margin: 10px 0 5px;
+  font-weight: bold;
+  color: #333;
+}
+input[type="text"], input[type="tel"], input[type="number"], select, textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  font-size: 1em;
+}
+textarea {
+  resize: vertical;
+}
+.button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #228B22, gold);
+  color: #fff;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.button:hover {
+  transform: scale(1.05);
+}
+.step {
+  display: none;
+  animation: fadeIn 0.6s ease forwards;
+}
+.step.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+.success-message {
+  display: none;
+  background: #d4edda;
+  color: #155724;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.private-accent {
+  border-left: 5px solid #cda4e0;
+  padding-left: 10px;
+}
+.course {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #f7f0ff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.course.disabled {
+  opacity: 0.5;
+}
+.course.disabled label, .course.disabled select {
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><a href="index.html">مسجد الهدى</a></div>
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="ranking.html">الترتيب</a>
+    <a href="registration.html">التسجيل</a>
+    <a href="gallery.html">معرض الصور</a>
+    <a href="private.html">خاص</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h2>تسجيل الدورات</h2>
+  <div class="success-message" id="successMessage">تم الإرسال بنجاح!</div>
+
+  <!-- Step 1: Full CV Submission -->
+  <div class="step active" id="step1">
+    <form id="cvForm">
+      <label for="fullName">الاسم الكامل</label>
+      <input type="text" id="fullName" name="fullName" placeholder="أدخل الاسم الكامل" required>
+
+      <label for="age">العمر</label>
+      <input type="number" id="age" name="age" placeholder="أدخل العمر" required min="5" max="100">
+
+      <label for="grade">الصف / الجامعة / العمل</label>
+      <input type="text" id="grade" name="grade" placeholder="الصف أو الجامعة أو العمل" required>
+
+      <label for="quran">ما تم حفظه من القرآن حتى الآن</label>
+      <textarea id="quran" name="quran" placeholder="أدخل ما حفظته" required></textarea>
+
+      <label for="motherName">اسم الأم</label>
+      <input type="text" id="motherName" name="motherName" required>
+      <label for="motherStudy">دراسة الأم</label>
+      <input type="text" id="motherStudy" name="motherStudy">
+      <label for="motherJob">وظيفة الأم</label>
+      <input type="text" id="motherJob" name="motherJob">
+      <label for="motherPhone">رقم الأم</label>
+      <input type="tel" id="motherPhone" name="motherPhone" required>
+
+      <label for="fatherName">اسم الأب</label>
+      <input type="text" id="fatherName" name="fatherName" required>
+      <label for="fatherStudy">دراسة الأب</label>
+      <input type="text" id="fatherStudy" name="fatherStudy">
+      <label for="fatherJob">وظيفة الأب</label>
+      <input type="text" id="fatherJob" name="fatherJob">
+
+      <label for="specialInfo">ملاحظات خاصة عن العائلة (طلاق، وفاة، مرض…)</label>
+      <textarea id="specialInfo" name="specialInfo"></textarea>
+
+      <label for="phone">رقم الطالب</label>
+      <input type="tel" id="phone" name="phone" required>
+
+      <label>هل أنت مستعد لإكمال الدورة كاملة مع المعلم؟</label>
+      <select id="commitment" name="commitment" required>
+        <option value="">اختر</option>
+        <option value="نعم">نعم</option>
+        <option value="لا">لا</option>
+      </select>
+
+      <button type="submit" class="button">التالي</button>
+    </form>
+  </div>
+
+  <!-- Step 2: Course Enrollment -->
+  <div class="step" id="step2">
+    <form id="courseForm">
+      <!-- Courses will be dynamically shown based on age restriction -->
+      <div class="course" data-min-age="15">
+        <h3>الدورة الشتوية</h3>
+        <label><input type="checkbox" name="winterCourse"> تسجيل في الدورة الشتوية</label>
+        <label>هل أنت مستعد لإكمال الدورة مع المعلم؟
+          <select name="winterCommitment">
+            <option value="">اختر</option>
+            <option value="نعم">نعم</option>
+            <option value="لا">لا</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="course" data-min-age="15">
+        <h3>درس رجال حول الرسول</h3>
+        <label><input type="checkbox" name="menLesson"> تسجيل في الدورة</label>
+        <label>هل أنت مستعد لإكمال الدورة مع المعلم؟
+          <select name="menCommitment">
+            <option value="">اختر</option>
+            <option value="نعم">نعم</option>
+            <option value="لا">لا</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="course" data-min-age="0">
+        <h3>التجويد</h3>
+        <label><input type="checkbox" name="tajweed"> تسجيل في الدورة</label>
+        <label>هل أنت مستعد لإكمال الدورة مع المعلم؟
+          <select name="tajweedCommitment">
+            <option value="">اختر</option>
+            <option value="نعم">نعم</option>
+            <option value="لا">لا</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="course" data-min-age="0" data-max-age="15">
+        <h3>دورة الأطفال</h3>
+        <label><input type="checkbox" name="kidsCourse"> تسجيل في الدورة</label>
+        <label>هل أنت مستعد لإكمال الدورة مع المعلم؟
+          <select name="kidsCommitment">
+            <option value="">اختر</option>
+            <option value="نعم">نعم</option>
+            <option value="لا">لا</option>
+          </select>
+        </label>
+      </div>
+
+      <button type="submit" class="button">إرسال التسجيل</button>
+    </form>
+  </div>
+
+</div>
+
+<footer>
+  <div>© 2025 مسجد الهدى</div>
+  <div>
+    <a href="index.html">الرئيسية</a>
+    <a href="ranking.html">الترتيب</a>
+    <a href="registration.html">التسجيل</a>
+  </div>
+</footer>
+
+<script>
+const step1 = document.getElementById('step1');
+const step2 = document.getElementById('step2');
+const successMessage = document.getElementById('successMessage');
+
+document.getElementById('cvForm').addEventListener('submit', function(e){
+  e.preventDefault();
+
+  const cvData = {
+    fullName: document.getElementById('fullName').value,
+    age: parseInt(document.getElementById('age').value),
+    grade: document.getElementById('grade').value,
+    quran: document.getElementById('quran').value,
+    motherName: document.getElementById('motherName').value,
+    motherStudy: document.getElementById('motherStudy').value,
+    motherJob: document.getElementById('motherJob').value,
+    motherPhone: document.getElementById('motherPhone').value,
+    fatherName: document.getElementById('fatherName').value,
+    fatherStudy: document.getElementById('fatherStudy').value,
+    fatherJob: document.getElementById('fatherJob').value,
+    specialInfo: document.getElementById('specialInfo').value,
+    phone: document.getElementById('phone').value,
+    commitment: document.getElementById('commitment').value
+  };
+
+  // TODO: Send cvData to Excel sheet 1 via your backend/API
+  console.log("CV Data:", cvData);
+
+  // Show success and move to Step 2
+  successMessage.style.display = 'block';
+  successMessage.innerText = 'تم حفظ بياناتك بنجاح!';
+  setTimeout(() => {
+    successMessage.style.display = 'none';
+    step1.classList.remove('active');
+    step2.classList.add('active');
+
+    // Apply age restrictions to courses
+    const userAge = cvData.age;
+    document.querySelectorAll('#step2 .course').forEach(course => {
+      const minAge = parseInt(course.dataset.minAge) || 0;
+      const maxAge = parseInt(course.dataset.maxAge) || 200;
+      if(userAge < minAge || userAge > maxAge){
+        course.classList.add('disabled');
+      }
+    });
+  }, 1500);
+});
+
+document.getElementById('courseForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const coursesData = {
+    winterCourse: document.querySelector('input[name="winterCourse"]').checked,
+    winterCommitment: document.querySelector('select[name="winterCommitment"]').value,
+    menLesson: document.querySelector('input[name="menLesson"]').checked,
+    menCommitment: document.querySelector('select[name="menCommitment"]').value,
+    tajweed: document.querySelector('input[name="tajweed"]').checked,
+    tajweedCommitment: document.querySelector('select[name="tajweedCommitment"]').value,
+    kidsCourse: document.querySelector('input[name="kidsCourse"]').checked,
+    kidsCommitment: document.querySelector('select[name="kidsCommitment"]').value
+  };
+
+  // TODO: Send coursesData to Excel sheet 2 via your backend/API
+  console.log("Courses Data:", coursesData);
+
+  successMessage.style.display = 'block';
+  successMessage.innerText = 'تم تسجيل الدورات بنجاح!';
+  setTimeout(() => {
+    successMessage.style.display = 'none';
+    document.getElementById('courseForm').reset();
+  }, 1500);
+});
+</script>
+
+</body>
+</html>

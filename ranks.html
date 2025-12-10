@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>تصنيفات الطلاب</title>
+<style>
+/* Body & background */
+:root { --main-green: #2E7D32; --gold: #FFD700; }
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  background: url('homepage-background.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--main-green);
+  position: relative;
+  min-height: 100vh;
+}
+
+/* subtle white overlay on top of background (under decorations and content) */
+body::before {
+  content: "";
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(255,255,255,0.82);
+  z-index: 0; /* base overlay */
+  pointer-events: none;
+}
+
+/* Decorations: particles + mosque silhouettes (sit above overlay but under content) */
+.decorations {
+  position: fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1; /* above overlay, below page content */
+}
+
+/* particles: use valid calc() arithmetic and percent units */
+.particle {
+  position: absolute;
+  bottom: -20px;
+  width: calc(6px + (var(--i) * 2px));
+  height: calc(6px + (var(--i) * 2px));
+  background: radial-gradient(circle, var(--gold), #FFC107);
+  border-radius: 50%;
+  left: calc(var(--i) * 12%); /* valid calc using percent unit */
+  animation: floatUp calc(10s + (var(--i) * 2s)) linear infinite;
+  opacity: 0.6;
+  transform-origin: center;
+}
+@keyframes floatUp {
+  0% { transform: translateY(0) scale(1); opacity:0.6;}
+  50% { opacity:0.85;}
+  100% { transform: translateY(-120vh) scale(1.2); opacity:0;}
+}
+
+/* mosque silhouettes */
+.mosque {
+  position: absolute;
+  bottom: 0;
+  width: 220px;
+  height: 120px;
+  background: url('mosque-silhouette.png') no-repeat center/contain;
+  opacity: 0.08;
+  animation: moveMosque calc(22s + (var(--i) * 5s)) linear infinite alternate;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 8px rgba(0,0,0,0.04));
+}
+.mosque[style*="--i:1"] { left: 5%; }
+.mosque[style*="--i:2"] { left: 70%; }
+@keyframes moveMosque {
+  0% { transform: translateX(0) }
+  50% { transform: translateX(30px) }
+  100% { transform: translateX(0) }
+}
+
+/* Content wrapper placed above decorations */
+.content {
+  position: relative;
+  z-index: 2; /* above overlay & decorations */
+  padding-bottom: 84px; /* leave space for bottom-nav on small screens */
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 20px;
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: var(--gold);
+  text-shadow: 2px 2px 10px rgba(0,0,0,0.6);
+}
+
+/* Navigation */
+nav {
+  text-align: center;
+  margin-bottom: 14px;
+}
+nav a {
+  text-decoration: none;
+  color: #fff;
+  background: var(--main-green);
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin: 0 6px;
+  transition: 0.25s;
+  display:inline-block;
+}
+nav a:hover { background: var(--gold); color: #000; }
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 20px 0;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: #A5D6A7;
+  transition: 0.25s;
+  font-weight: bold;
+  user-select: none;
+}
+.tab.active {
+  background-color: var(--gold);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(255,215,0,0.6);
+}
+
+/* Sections */
+.section {
+  margin: 24px 12px;
+  background: rgba(255,255,255,0.92);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  direction: rtl;
+}
+.section h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--main-green);
+  text-shadow: 2px 2px 6px rgba(255,215,0,0.5);
+  font-size: 2rem;
+  margin: 0;
+}
+.section h2 img { width: 44px; height: 44px; }
+
+/* Rankings cards */
+.rankings {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+.card {
+  background: #C8E6C9;
+  border-radius: 14px;
+  padding: 10px;
+  width: 210px;
+  text-align: center;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  opacity: 0;                 /* initial, will become visible via .fade-in.show */
+  transform: translateY(20px);/* initial */
+  position: relative;
+}
+.card img { width: 56px; height: 56px; border-radius: 50%; margin-bottom: 6px; object-fit:cover; }
+
+/* Top 3 glow animations */
+.card.top1 { background: var(--gold); color: #000; font-weight: bold; animation: glowGold 1.6s infinite alternate; }
+.card.top2 { background: #C0C0C0; color: #000; font-weight: bold; animation: glowSilver 1.6s infinite alternate; }
+.card.top3 { background: #CD7F32; color: #fff; font-weight: bold; animation: glowBronze 1.6s infinite alternate; }
+
+/* Glitter overlay */
+.card.top1::after, .card.top2::after, .card.top3::after {
+  content: '';
+  position: absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  border-radius: 14px;
+  background: radial-gradient(white, transparent);
+  opacity: 0.4;
+  pointer-events: none;
+  animation: glitter 1.2s infinite alternate;
+}
+@keyframes glitter {
+  0% { opacity:0.4; transform: rotate(0deg) scale(1); }
+  50% { opacity:0.7; transform: rotate(15deg) scale(1.02);}
+  100% { opacity:0.4; transform: rotate(-15deg) scale(1); }
+}
+
+@keyframes glowGold { from { box-shadow: 0 0 6px #FFD700aa; } to { box-shadow: 0 0 28px #FFD700; } }
+@keyframes glowSilver { from { box-shadow: 0 0 6px #C0C0C0aa; } to { box-shadow: 0 0 18px #C0C0C0; } }
+@keyframes glowBronze { from { box-shadow: 0 0 6px #CD7F32aa; } to { box-shadow: 0 0 18px #CD7F32; } }
+
+/* Hover effect */
+.card:hover { transform: scale(1.04); box-shadow: 0 10px 22px rgba(0,0,0,0.18); }
+
+/* Fade-in scroll animation */
+.fade-in { opacity: 0; transform: translateY(20px); transition: all 0.7s cubic-bezier(.2,.9,.2,1); }
+.fade-in.show { opacity: 1; transform: translateY(0); }
+
+/* text styles */
+.rank-number { font-size: 1.15rem; font-weight: bold; }
+.student-name { font-weight: bold; margin: 6px 0; }
+
+/* Responsive */
+@media (max-width:700px){
+  .card { width: 45%; }
+  .section h2 { font-size: 1.6rem; }
+}
+@media (max-width:420px){
+  .card { width: 90%; }
+  .tabs { gap:8px; }
+}
+
+/* Bottom Nav (Mobile Floating Bar) */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0 6px;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.15);
+  z-index: 9999;
+  border-top: 2px solid #A5D6A7;
+}
+.bottom-nav a {
+  text-decoration: none;
+  color: var(--main-green);
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.25s;
+}
+.bottom-nav a.active, .bottom-nav a:hover {
+  color: var(--gold);
+  transform: scale(1.2);
+}
+.bottom-nav img {
+  width: 26px;
+  height: 26px;
+  margin-bottom: 3px;
+}
+@media (min-width: 850px) {
+  .bottom-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Decorations -->
+<div class="decorations" aria-hidden="true">
+  <div class="particle" style="--i:1;"></div>
+  <div class="particle" style="--i:2;"></div>
+  <div class="particle" style="--i:3;"></div>
+  <div class="particle" style="--i:4;"></div>
+  <div class="particle" style="--i:5;"></div>
+  <div class="particle" style="--i:6;"></div>
+  <div class="particle" style="--i:7;"></div>
+  <div class="mosque" style="--i:1;"></div>
+  <div class="mosque" style="--i:2;"></div>
+</div>
+
+<div class="content">
+  <header>تصنيفات الطلاب</header>
+
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="ranks.html">التصنيفات</a>
+  </nav>
+
+  <div class="tabs" role="tablist" aria-label="أختيارات التصنيف">
+    <div class="tab active" role="tab" data-type="weekly" tabindex="0">أسبوعي</div>
+    <div class="tab" role="tab" data-type="monthly" tabindex="0">شهري</div>
+  </div>
+
+  <div id="sections-container" aria-live="polite"></div>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav" aria-hidden="false">
+  <a href="index.html" class="active"><img src="home-icon.png" alt=""><span>الرئيسية</span></a>
+  <a href="ranks.html"><img src="rank-icon.png" alt=""><span>التصنيفات</span></a>
+  <a href="gallery.html"><img src="gallery-icon.png" alt=""><span>المعرض</span></a>
+  <a href="profile.html"><img src="user-icon.png" alt=""><span>حسابي</span></a>
+  <a href="contact.html"><img src="contact-icon.png" alt=""><span>تواصل</span></a>
+</div>
+
+<script>
+// Logos
+const logos = {
+  "أوائل الدوام": "logo-attendance.png",
+  "مسار القرآن": "logo-quran.png",
+  "مسار الحديث": "logo-hadith.png",
+  "مسابقة صون اللسان": "logo-tongue.png",
+  "مسابقة صون العين": "logo-eye.png",
+  "مسابقة صون الأذن": "logo-ear.png",
+  "مسار القرآن للأطفال": "logo-quran-kids.png",
+  "مسار الأربعين النووية": "logo-nawawi.png",
+  "مسابقة الالتزام بالأخلاق": "logo-ethics.png",
+  "متفوق الكبار": "logo-adult.png",
+  "متفوق الأطفال": "logo-kids.png"
+};
+
+const sections = [
+  "أوائل الدوام",
+  "متفوق الأطفال", "متفوق الكبار",
+  "مسار القرآن","مسار الحديث","مسابقة صون اللسان","مسابقة صون العين",
+  "مسابقة صون الأذن","مسار القرآن للأطفال","مسار الأربعين النووية",
+  "مسابقة الالتزام بالأخلاق"
+];
+
+function generateParticipants(section){
+  const names = ["علي","سارة","حسن","فاطمة","يوسف","ليلى","آدم","نور","مريم","زياد"];
+  const arr = [];
+  for(let i=0;i<10;i++){
+    let rank = i+1;
+    arr.push({
+      rank: rank,
+      name: names[i % names.length],
+      age: 8 + i,
+      grade: (section.includes("الكبار") ? "وظيفة/دراسة" : "الصف " + (i+1)),
+      quran: ((i % 10) + 1) + " أجزاء",
+      photo: i===0 ? "student-photo.png" : null,
+      emoji: rank===1 ? "🥇" : rank===2 ? "🥈" : rank===3 ? "🥉" : "🔹"
+    });
+  }
+  return arr;
+}
+
+let weeklyData = {}, monthlyData = {};
+sections.forEach(sec => {
+  weeklyData[sec] = generateParticipants(sec);
+  monthlyData[sec] = generateParticipants(sec);
+});
+
+const weeklyDate = "الأسبوع: 1–7 نوفمبر 2025";
+const monthlyLabel = "شهر: نوفمبر 2025";
+
+/**
+ * Render rankings for 'weekly' or 'monthly'
+ * event can be an object with .target to mark active tab, or omitted
+ */
+function showRankings(type, event){
+  const container = document.getElementById('sections-container');
+  container.innerHTML = '';
+
+  const data = (type === "weekly") ? weeklyData : monthlyData;
+
+  const topLabel = document.createElement('div');
+  topLabel.className = 'section-header';
+  topLabel.textContent = (type === "weekly") ? weeklyDate : monthlyLabel;
+  container.appendChild(topLabel);
+
+  sections.forEach(sectionName => {
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'section';
+    const logoSrc = logos[sectionName] || '';
+    // safe-escape the text content for sectionName
+    const heading = document.createElement('h2');
+    if (logoSrc) {
+      const img = document.createElement('img');
+      img.src = logoSrc;
+      img.alt = sectionName;
+      heading.appendChild(img);
+    }
+    heading.appendChild(document.createTextNode(" " + sectionName));
+    sectionDiv.appendChild(heading);
+
+    const rankingContainer = document.createElement('div');
+    rankingContainer.className = 'rankings';
+    let participants = Array.isArray(data[sectionName]) ? [...data[sectionName]] : [];
+    participants.forEach(student => {
+      const card = document.createElement('div');
+      card.className = 'card fade-in';
+      if(student.rank === 1) card.classList.add('top1');
+      else if(student.rank === 2) card.classList.add('top2');
+      else if(student.rank === 3) card.classList.add('top3');
+
+      // build inner HTML with proper escaping for values (simple approach)
+      const htmlParts = [];
+      if (student.photo) {
+        htmlParts.push(`<img src="${student.photo}" alt="صورة ${student.name}">`);
+      }
+      htmlParts.push(`<div class="rank-number">${student.emoji} #${student.rank}</div>`);
+      htmlParts.push(`<div class="student-name">${student.name}</div>`);
+      htmlParts.push(`<div>العمر: ${student.age}</div>`);
+      htmlParts.push(`<div>الصف/الوظيفة: ${student.grade}</div>`);
+      htmlParts.push(`<div>ما حفظه: ${student.quran}</div>`);
+      card.innerHTML = htmlParts.join('\n');
+
+      rankingContainer.appendChild(card);
+    });
+
+    sectionDiv.appendChild(rankingContainer);
+    container.appendChild(sectionDiv);
+  });
+
+  // update active tab class
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+  if (event && event.target) {
+    event.target.classList.add('active');
+  } else {
+    // fallback: set first tab depending on type
+    const sel = document.querySelector(`.tab[data-type="${type}"]`);
+    if (sel) sel.classList.add('active');
+  }
+
+  // IntersectionObserver to reveal cards when visible
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        entry.target.classList.add('show');
+        // once shown, we can unobserve to improve performance
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  // observe all fade-in elements that were just created
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+}
+
+// Setup tab clicks (keyboard accessible)
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', (e) => {
+    const type = tab.dataset.type || (tab.textContent.includes('أسبوع') ? 'weekly' : 'monthly');
+    showRankings(type, { target: tab });
+  });
+  tab.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      tab.click();
+    }
+  });
+});
+
+// Initial render - pick the tab that has .active, or default to weekly
+const initialTab = document.querySelector('.tab.active') || document.querySelector('.tab[data-type="weekly"]');
+const initialType = initialTab ? (initialTab.dataset.type || 'weekly') : 'weekly';
+showRankings(initialType, { target: initialTab });
+
+// Fetch live data from Google Sheet (if available)
+async function loadLiveData() {
+  try {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbwDCYbAWLE5EEx5g2Ym0lGaN4Z1FnhO273Zipq-XsbvyfR_q3x1NvreE7JfZ5pGXy8f7w/exec');
+    if (!response.ok) throw new Error("Network response was not ok");
+    const liveData = await response.json();
+    // Expecting structure: { weekly: {...}, monthly: {...} }
+    if (liveData.weekly) weeklyData = liveData.weekly;
+    if (liveData.monthly) monthlyData = liveData.monthly;
+    // re-render current tab
+    const activeTab = document.querySelector('.tab.active');
+    const type = activeTab ? (activeTab.dataset.type || 'weekly') : 'weekly';
+    showRankings(type, { target: activeTab });
+  } catch (error) {
+    // keep placeholders if fetch fails
+    console.warn("Could not fetch live data, keeping placeholders.", error);
+  }
+}
+// call but don't block page
+loadLiveData();
+</script>
+
+</body>
+</html>
